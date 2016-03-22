@@ -76,6 +76,7 @@ d3.csv("artist_cluster.csv", function(data) {
       .attr("x", width)
       .attr("y", margin.bottom - 10)
       .style("text-anchor", "end")
+      .style("font-size", 21)
       .text(xCat);
 
   svg.append("g")
@@ -87,6 +88,7 @@ d3.csv("artist_cluster.csv", function(data) {
       .attr("y", -margin.left)
       .attr("dy", ".71em")
       .style("text-anchor", "end")
+      .style("font-size", 21)
       .text(yCat);
 
   var objects = svg.append("svg")
