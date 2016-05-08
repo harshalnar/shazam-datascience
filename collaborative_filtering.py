@@ -12,44 +12,14 @@ import operator
 from collections import defaultdict
 from scipy.sparse import csc_matrix
 
+users_interests = []
+users_songs = []
+index_song_map = {}
 
-def main():
-    #plays = load_data("data/topUsers/userId13ce57b3a25ef63fa614335fd838e8024c42ec17.csv")
-    #normalize("data/topUsers2/userId13ce57b3a25ef63fa614335fd838e8024c42ec17.csv")
-    print "generating matrix"
+user_index_map = {}
+userid_index_map = {}
 
-    trainingSet = []
-    testSet = []
-    split = 0.6
-    user_interest_matrix = getUserInterestMatrix(split, trainingSet, testSet)
-
-    print "generating similarities"
-    #user_similarities = getUserSimilarities(testSet)
-    #print user_similarities
-
-    # print "making suggestions"
-    # #most_similar_users = most_similar_users_to(0, user_similarities)
-    # user_suggestions = user_based_suggestions(0, user_similarities)
-    # user_suggestions_songIds = user_based_suggestions_songIds(0, user_similarities)
-    # print "SUGGESTIONS: "
-    # print user_suggestions
-
-
-    predictions = getPredictions(user_interest_matrix, trainingSet, testSet)
-
-    no_index_testSet = []
-    for userTuple in testSet:
-        no_index_testSet.append(userTuple[1])
-
-    accuracy = getAccuracy(no_index_testSet, predictions)
-
-    print "ACCURACY IS: ", accuracy
-
-    #print user_suggestions_songIds
- #    X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])
-	# nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X)
-	# distances, indices = nbrs.kneighbors(X)
-
+ommited_songs = {}
 
 def getPredictions(full_matrix, trainingSet, testSet):
     predictions = []
@@ -61,14 +31,19 @@ def getPredictions(full_matrix, trainingSet, testSet):
 
     user_similarities = getUserSimilarities(full_matrix)
 
+    #print userTuple
     for userTuple in testSet:
         #print "generating similarities"
         user_suggestions_songIds = user_based_suggestions_songIds(userTuple[0], user_similarities)
         #print "suggestions are: ", user_suggestions_songIds
 
+        #print index_song_map
+        #good_predictions = user_suggestions_songIds[i]#map(lambda x: x[1], index_song_map.items())
+        #print good_predictions
+        #print len(good_predictions)
+        #print len(index_song_map)
         good_predictions = []
-        #print " suggestions: ", user_suggestions_songIds
-        for i in range(50):
+        for i in range(10):   #<------------------NOTE: By changing this value you can make a nice graph
             #print "index is: ", i
             good_predictions.append(user_suggestions_songIds[i][0])
 
@@ -80,16 +55,27 @@ def getPredictions(full_matrix, trainingSet, testSet):
 def getAccuracy(testSet, predictions):
     correct = 0.0
     #print "test set is: ", testSet
-    for index, user_listens in enumerate(testSet):
-        max_index, max_listen = max(enumerate(user_listens), key=operator.itemgetter(1))
-        most_listened_songId = index_song_map[max_index]
+    for i, elem in enumerate(testSet):
+        index = elem[0]
+        user_listens = elem[1]
+        #max_index, max_listen = max(enumerate(user_listens), key=operator.itemgetter(1))
+        #most_listened_songId = index_song_map[max_index]
 
-        print "user listens: ", user_listens
-        print "max listens: ", max_listen
-        print "most listened songId: ", most_listened_songId
-        print "prediction: ", predictions[index]
-        if most_listened_songId in predictions[index]:
+        #print "user listens: ", user_listens
+        #print "max listens: ", max_listen
+        #print "most listened songId: ", most_listened_songId
+        #print "prediction: ", predictions[index]
+        predictedSongs = map(lambda x: x[0], predictions[i])
+
+        ommited_song_id = index_song_map[ommited_songs[index]]
+
+        # predictedSongs.append(most_listened_songId)
+        # print most_listened_songId in predictedSongs
+
+        # NOTE: Weigh the values depending on the standing on predictions **********************
+        if ommited_song_id in predictions[i]:
             correct += 1
+        # print correct
     return (correct/float(len(testSet))) # * 100.0
 
 # def dot(v1, v2):
@@ -148,8 +134,8 @@ def most_similar_users_to(user_id, user_similarities):
     #print "userID INDEX: ", user_id
     pairs = [(other_user_id, similarity)                      # find other
              for other_user_id, similarity in                 # users with
-                enumerate(user_similarities[user_id])          # nonzero 
-             if similarity > 0]  # similarity
+                enumerate(user_similarities[user_id])         # nonzero 
+             if similarity > 0]                               # similarity
 
     return sorted(pairs,                                      # sort them
                   key=lambda (_, similarity): similarity,     # most similar
@@ -161,25 +147,15 @@ def minMaxNormalize(minVal, maxVal, val):
 
 
 
-
-
-
-
-users_interests = []
-users_songs = []
-index_song_map = {}
-
-user_index_map = {}
-
-
 def getUserInterestMatrix(split, trainingSet=[], testSet=[]):
 #XminmaxNorm = (X - min(X))/(max(X)-min(X))
     songIds = []
     userId = ""
     newSongs = []
-    topUsers2_path = 'data/usersDataMore/'
+    topUsers2_path = 'data/topUsers100/'
     song_set = Set([])
     users_info = []
+
     #users_interests = [Set([])]
 
     song_index_map = {}
@@ -223,10 +199,14 @@ def getUserInterestMatrix(split, trainingSet=[], testSet=[]):
 
             for i, row in enumerate(csvreader):
                 if i != 0:
+
+                    userId = row[0]
                     songId = row[1] 
                     songPlayCount = int(row[2])
-                    user_heard.add(songId)
                     songTitle = row[4]
+
+                    userid_index_map[userId] = i
+                    user_heard.add(songId)
 
                    # user_interest_matrix[user_index][song] = songPlayCount
                     user_interests.append(songId)
@@ -250,6 +230,17 @@ def getUserInterestMatrix(split, trainingSet=[], testSet=[]):
             if random.random() < split:
                 trainingSet.append(user_interest_matrix[user_index])
             else:
+                max_index, max_listen = max(enumerate(user_interest_matrix[user_index]), key=operator.itemgetter(1))
+                # most_listened_songId = index_song_map[max_index]
+                #print user_interest_matrix[user_index]
+                #print max_index
+                #print max_listen
+                #exit()
+                # Set most listening song = 0, so we can test it later by finding it.
+                user_interest_matrix[user_index][max_index] = 0;
+                # Set each user in the testing list to the song taken out from it, so we can check later.
+                ommited_songs[user_index] = max_index;
+
                 testSet.append((user_index, user_interest_matrix[user_index]))      
 
     	    user_index += 1
@@ -258,9 +249,10 @@ def getUserInterestMatrix(split, trainingSet=[], testSet=[]):
 
 
     # print user_interest_matrix
-    sparse_R = csc_matrix(user_interest_matrix)
+    # sparse_R = csc_matrix(user_interest_matrix)
 
-    #print sparse_R
+    # print sparse_R
+    # print user_interest_matrix
     return user_interest_matrix
 
    	### FOR NORMALIZING LATER
@@ -331,7 +323,7 @@ def user_based_suggestions_songIds(user_id, user_similarities, include_current_i
     suggestions = defaultdict(float)
     most_similar_users = most_similar_users_to(user_id, user_similarities)
 
-    print "MOST SIMLAR USERS: ", most_similar_users
+    #print "MOST SIMLAR USERS: ", most_similar_users
     for other_user_id, similarity in most_similar_users:
         # print other_user_id
         # print "**********"
@@ -344,14 +336,52 @@ def user_based_suggestions_songIds(user_id, user_similarities, include_current_i
                          key=lambda (_, weight): weight,
                          reverse=True)
 
+    return suggestions
     # and (maybe) exclude already-interests
-    if include_current_interests:
-        return suggestions
-    else:
-        return [(suggestion, weight) 
-                for suggestion, weight in suggestions
-                if suggestion not in users_interests[user_id]]
+    #if include_current_interests:
+    #    return suggestions
+    #else:
+    #    return [(suggestion, weight) 
+    #            for suggestion, weight in suggestions
+    #            if suggestion not in users_interests[user_id]]
 
+
+def main():
+    #plays = load_data("data/topUsers/userId13ce57b3a25ef63fa614335fd838e8024c42ec17.csv")
+    #normalize("data/topUsers2/userId13ce57b3a25ef63fa614335fd838e8024c42ec17.csv")
+    print "generating matrix"
+
+    trainingSet = []
+    testSet = []
+    split = 0.6
+    user_interest_matrix = getUserInterestMatrix(split, trainingSet, testSet)
+
+    print "generating similarities"
+    #user_similarities = getUserSimilarities(testSet)
+    #print user_similarities
+
+    # print "making suggestions"
+    # #most_similar_users = most_similar_users_to(0, user_similarities)
+    # user_suggestions = user_based_suggestions(0, user_similarities)
+    # user_suggestions_songIds = user_based_suggestions_songIds(0, user_similarities)
+    # print "SUGGESTIONS: "
+    # print user_suggestions
+
+
+    predictions = getPredictions(user_interest_matrix, trainingSet, testSet)
+
+    #no_index_testSet = []
+    #for userTuple in testSet:
+    #    no_index_testSet.append(userTuple[1])
+
+    accuracy = getAccuracy(testSet, predictions)
+
+    print "ACCURACY IS: ", accuracy
+
+    #print user_suggestions_songIds
+ #    X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])
+	# nbrs = NearestNeighbors(n_neighbors=2, algorithm='ball_tree').fit(X)
+	# distances, indices = nbrs.kneighbors(X)
 
 
 if __name__ == '__main__':
