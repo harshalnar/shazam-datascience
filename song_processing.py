@@ -44,7 +44,6 @@ def main():
 
     # print "artist_familiarity are: "
     # print list(artist_familiarity)
-
     closeDBConnection()
 
     """calculate and plotting K means and with cluster point scatter vs. K"""
