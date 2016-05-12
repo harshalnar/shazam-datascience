@@ -1,0 +1,45 @@
+<section data-ng-controller="SongsController" data-ng-init="find()">
+  <h1 id="title-center">Listen to songs</h1>
+
+  <!-- TODO: Save submission! -->
+  <div ng-controller="SongsController as ctrl" layout="column" ng-cloak id="listen-bar">
+    <md-content layout-padding layout="column">
+    <form ng-submit="submit(ctrl.selectedItem)">
+      <p>Enter a song you've listened to. It will be saved on your profile.</p>
+      <md-autocomplete
+        ng-disabled="ctrl.isDisabled"
+        md-no-cache="ctrl.noCache"
+        md-selected-item="ctrl.selectedItem"
+        md-search-text-change="ctrl.searchTextChange(ctrl.searchText)"
+        md-search-text="ctrl.searchText"
+        md-selected-item-change="ctrl.selectedItemChange(item)"
+        md-items="item in ctrl.querySearch(ctrl.searchText)"
+        md-item-text="item.title"
+        md-min-length="0"
+        placeholder="Pick a song!"
+        md-menu-class="autocomplete-custom-template">
+        <md-item-template>
+          <span class="item-title">
+            <span> {{item.title}} - </span>
+          </span>
+          <span class="item-metadata">
+            <span class="item-metastat">
+              <strong>{{item.author}}</strong>
+            </span>
+          </span>
+        </md-item-template>
+      </md-autocomplete>
+      
+      <md-button class="md-raised md-primary" type="submit">
+        Submit
+      </md-button>
+
+    </form>
+    <ul>
+      <li ng-repeat="triple in triples">
+      <strong>{{triple.songTitle}} </strong> - {{triple.songAuthor}}<br> {{triple.count}} listens
+      </li>
+    </ul>
+    </md-content>
+  </div> 
+</section>

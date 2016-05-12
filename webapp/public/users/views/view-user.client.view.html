@@ -1,0 +1,10 @@
+<section data-ng-controller="UsersController" data-ng-init="findOne()">
+  <h1 data-ng-bind="user.username"></h1>
+  <h2 data-ng-bind="user.admin"></h2>
+
+  <!-- Probably need to add confirmation on deletion  -->
+  <div data-ng-show="authentication.user">
+    <a href="#" data-ng-click="delete();">delete</a>
+  </div>
+  
+</section>

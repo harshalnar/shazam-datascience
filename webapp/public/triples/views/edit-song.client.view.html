@@ -1,0 +1,36 @@
+<section data-ng-controller="SongsController" data-ng-init="findOne()">
+  <h1>Edit Song</h1>
+  <form data-ng-submit="update()" novalidate>
+
+    <div>
+      <label for="index">Index</label>
+      <div>
+        <input type="text" data-ng-model="song.index" id="index"
+                           placeholder="Index" required>
+      </div>
+    </div>
+ 
+    <div>
+      <label for="author">Author</label>
+      <div>
+        <input type="text" data-ng-model="song.author" id="author"
+                           placeholder="Author" required>
+      </div>
+    </div>
+
+    <div>
+      <label for="title">Title</label>
+      <div>
+        <input type="text" data-ng-model="song.title" id="title"
+                           placeholder="Title" required>
+      </div>
+    </div>
+
+    <div>
+      <input type="submit">
+    </div>
+    <div data-ng-show="error">
+      <strong data-ng-bind="error"></strong>
+    </div>
+  </form>
+</section>

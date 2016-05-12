@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html xmlns:ng="http://angularjs.org">
+  <head>
+    <title><%= title %></title>
+    <link rel="icon" type="image/png" href="/img/pp-flavicon.png">
+
+    <link href='https://fonts.googleapis.com/css?family=Josefin+Sans:400,700' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Arvo:400,400italic,700' rel='stylesheet' type='text/css'>
+    <link href="/lib/angular-carousel/dist/angular-carousel.css" rel="stylesheet" type="text/css" />
+    <link href="/lib/angular-material/angular-material.css" rel="stylesheet" type="text/css" />
+
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <script src="/js/jquery-2.2.0.min.js"></script>
+
+  </head>
+  <body>
+    <div id="top-bar">
+      <a href="/#!/"><h1>Songgest</h1></a>
+      <a href="/#!/"><div class="nav">About<br>Us</div></a>
+      <% if (user) { %>
+        <a class="user-menu">Signed in as <%= JSON.parse(user).username %></a>
+        <% if (JSON.parse(user).admin) { %>
+          <a href="/#!/songs/">List songs</a>
+          <a href="/#!/users/">List users</a>
+        <% } %>
+        <a href="/signout">Logout</a>
+      <% } %>
+      <% if (user) { %>
+      <a href="/#!/suggest/<%=JSON.parse(user)._id%>"><div class="nav">Suggest<br>music</div></a>
+        <a href="/#!/listen"><div class="nav">Listen<br>to music</div></a>
+      <% } %>
+    </div>
+
+    <div id="content">
+      <section ng-view></section>
+    </div>
+
+    <!-- Make user available for angular -->
+    <script type="text/javascript">
+      window.user = <%- user || 'null' %>;
+    </script>
+
+    <!-- Angular + third party modules -->
+    <script type="text/javascript" src="/lib/angular/angular.js"></script>
+    <script type="text/javascript" src="/lib/angular-route/angular-route.js"></script>
+    <script type="text/javascript" src="/lib/angular-material/angular-material.js"></script>
+    <script type="text/javascript" src="/lib/angular-animate/angular-animate.js"></script>
+    <script type="text/javascript" src="/lib/angular-aria/angular-aria.js"></script>
+    <script type="text/javascript" src="/lib/angular-messages/angular-messages.js"></script>
+    <script type="text/javascript" src="/lib/angular-resource/angular-resource.js"></script>
+    <script type="text/javascript" src="/lib/angular-touch/angular-touch.js"></script>
+    <script type="text/javascript" src="/lib/angular-carousel/dist/angular-carousel.js"></script>
+
+    <!-- Songs module -->
+    <script type="text/javascript" src="/songs/songs.client.module.js"></script>
+    <script type="text/javascript" src="/songs/controllers/songs.client.controller.js"></script>
+    <script type="text/javascript" src="/songs/services/songs.client.service.js"></script>
+    <script type="text/javascript" src="/songs/config/songs.client.routes.js"></script>
+
+    <!-- Triples module -->
+    <script type="text/javascript" src="/triples/triples.client.module.js"></script>
+    <script type="text/javascript" src="/triples/controllers/triples.client.controller.js"></script>
+    <script type="text/javascript" src="/triples/services/triples.client.service.js"></script>
+    <script type="text/javascript" src="/triples/config/triples.client.routes.js"></script>
+
+    <!-- Index (main) module -->
+    <script type="text/javascript" src="/index/index.client.module.js"></script>
+    <script type="text/javascript" src="/index/controllers/index.client.controller.js"></script>
+    <script type="text/javascript" src="/index/config/index.client.routes.js"></script>
+
+    <!-- Users module -->
+    <script type="text/javascript" src="/users/users.client.module.js"></script>
+    <script type="text/javascript" src="/users/controllers/users.client.controller.js"></script>
+    <script type="text/javascript" src="/users/services/users.client.service.js"></script>
+    <script type="text/javascript" src="/users/services/authentication.client.service.js"></script>
+    <script type="text/javascript" src="/users/config/users.client.routes.js"></script>
+
+    <!-- Main application -->
+    <script type="text/javascript" src="/application.js"></script>
+  </body>
+</html>

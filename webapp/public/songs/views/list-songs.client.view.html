@@ -1,0 +1,17 @@
+<section data-ng-controller="SongsController" data-ng-init="find()">
+  <h1>Songs</h1>
+  <ul>
+    <li data-ng-repeat="song in songs">
+      <a data-ng-href="#!/songs/{{song._id}}" data-ng-bind="song.title"</a>
+      <br>
+      <small data-ng-bind="song.index"></small>
+      <small> / </small>
+      <small data-ng-bind="song.title"></small>
+      <small> / </small>
+      <small data-ng-bind="song.author"></small>
+    </l1>
+  </ul>
+  <div>
+    <a href="/#!/songs/create">Create new song</a>
+  </div>
+</section>

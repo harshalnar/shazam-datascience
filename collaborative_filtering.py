@@ -5,8 +5,10 @@ from sets import Set
 import os
 import os.path
 import sys
+import argparse
 import csv
 import math
+import json
 import random
 import operator
 from collections import defaultdict
@@ -18,8 +20,14 @@ index_song_map = {}
 
 user_index_map = {}
 userid_index_map = {}
+index_userid_map = {}
 
 ommited_songs = {}
+
+def parse_args():
+    parser = argparse.ArgumentParser(description='Collaborative Filtering of users')
+    parser.add_argument('-u', help='user trying to get predictions from')
+    return parser.parse_args()
 
 def getPredictions(full_matrix, trainingSet, testSet):
     predictions = []
@@ -206,6 +214,7 @@ def getUserInterestMatrix(split, trainingSet=[], testSet=[]):
                     songTitle = row[4]
 
                     userid_index_map[userId] = i
+                    index_userid_map[i] = userId 
                     user_heard.add(songId)
 
                    # user_interest_matrix[user_index][song] = songPlayCount
@@ -347,13 +356,16 @@ def user_based_suggestions_songIds(user_id, user_similarities, include_current_i
 
 
 def main():
+    args = parse_args()
+    user = json.loads(args.u)[0]
+    print user
     #plays = load_data("data/topUsers/userId13ce57b3a25ef63fa614335fd838e8024c42ec17.csv")
     #normalize("data/topUsers2/userId13ce57b3a25ef63fa614335fd838e8024c42ec17.csv")
     print "generating matrix"
 
     trainingSet = []
     testSet = []
-    split = 0.6
+    split = 2.0
     user_interest_matrix = getUserInterestMatrix(split, trainingSet, testSet)
 
     print "generating similarities"
@@ -368,15 +380,27 @@ def main():
     # print user_suggestions
 
 
-    predictions = getPredictions(user_interest_matrix, trainingSet, testSet)
+    user_similarities = getUserSimilarities(user_interest_matrix)
+    userid = user['idString']
+    index = userid_index_map[userid]
+    user_suggestions_songIds = user_based_suggestions_songIds(index, user_similarities)
+
+    good_predictions = []
+    for i in range(10):   #<------------------NOTE: By changing this value you can make a nice graph
+        #print "index is: ", i
+        good_predictions.append(user_suggestions_songIds[i][0])
+
+    print good_predictions
+    return good_predictions
+    #predictions = getPredictions(user_interest_matrix, trainingSet, testSet)
 
     #no_index_testSet = []
     #for userTuple in testSet:
     #    no_index_testSet.append(userTuple[1])
 
-    accuracy = getAccuracy(testSet, predictions)
+    #accuracy = getAccuracy(testSet, predictions)
 
-    print "ACCURACY IS: ", accuracy
+    #print "ACCURACY IS: ", accuracy
 
     #print user_suggestions_songIds
  #    X = np.array([[-1, -1], [-2, -1], [-3, -2], [1, 1], [2, 1], [3, 2]])

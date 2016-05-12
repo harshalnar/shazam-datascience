@@ -1,0 +1,26 @@
+<section ng-controller=IndexController>
+    <div id="main-content">
+      <h1>Welsome to Songgest!</h1>
+
+      <div data-ng-show="!authentication.user" >
+        <h2><a href="/signup">Sign up</a> | <a href="/signin">Log in</a></h2>
+      </div>
+
+    </div>
+
+    <div id="mygallery" class="stepcarousel" id="slides_control">
+      <ul rn-carousel rn-carousel-auto-slide rn-carousel-controls rn-carousel-controls-allow-loop class="image">
+        <li ng-repeat="slide in slides">
+          <img id="carousel-img" ng-src="{{slide.image}}">
+          <!-- TODO: This doesn't show-->
+          <h1>HOLAAAAAAAAAAAAA</h1>
+        </li>
+
+        <!-- TODO: This doesn't work nor show-->
+        <div id="indicators" rn-carousel-indicators ng-if="slides.length > 1" slides="slides" rn-carousel-index="carouselIndex"></div>
+      </ul>
+    </div>
+
+
+
+</section>

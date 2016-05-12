@@ -1,0 +1,30 @@
+{
+  "name": "Pessoa",
+  "version": "0.0.3",
+  "description": "Basic mean stack",
+  "license": "MIT",
+  "author": {
+    "name": "mm193, <add yours>"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/miguelmc/Pessoa"
+  },
+  "dependencies": {
+    "angular-carousel": "^1.0.1",
+    "angular-touch": "^1.5.3",
+    "body-parser": "^1.15.0",
+    "compression": "^1.6.1",
+    "connect-flash": "^0.1.1",
+    "ejs": "^2.4.1",
+    "express": "latest",
+    "express-session": "^1.13.0",
+    "method-override": "^2.3.5",
+    "mongoose": "^4.4.8",
+    "morgan": "^1.7.0",
+    "nodemon": "latest",
+    "passport": "^0.3.2",
+    "passport-local": "^1.0.0",
+    "python-shell": "^0.4.0"
+  }
+}

@@ -1,0 +1,8 @@
+<section data-ng-controller="UsersController" data-ng-init="suggest()">
+  <h2>Recommendations tweaked just for you &lt3 </h2>
+  <ul>
+    <li ng-repeat="pred in predictions">
+    <strong>{{pred.title}}</strong> - {{pred.author}}
+    </li>
+  </ul>
+</section>

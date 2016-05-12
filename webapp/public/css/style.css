@@ -1,0 +1,280 @@
+/* BASE STYLING */
+html {
+  background: transparent;
+  width: 100%;
+  height: 100%;
+}
+body {
+  margin: 0;
+  padding: 0;
+  background-color: #4E87AA;
+  font-family: 'Arvo', Courier, sans-serif;
+  color: #f2ebd8;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Josefin Sans', Futura, sans-serif;
+  font-weight: 700;
+}
+
+ul {
+  list-style-type: none;
+}
+
+li {
+  padding-top: 1em;
+}
+
+a, a:visited {
+  color: #f58548;
+}
+
+#title-center {
+  font-size: 36px;
+  text-align: center;
+}
+
+.user-menu {
+  padding: 0 2em;
+  color: white;
+}
+
+#listen-bar {
+  margin: auto;
+  width: 50%;
+}
+
+#signup-login {
+  margin: auto;
+  width: 30%;
+  padding: 2em;
+  text-align: center;
+}
+
+#username-field {
+  padding: 1em 0;
+}
+
+#password-field {
+  padding-bottom: 1em;
+}
+
+#submit-button {
+  text-align: center;
+}
+
+
+/* TOP BAR STYLING */
+#top-bar {
+  width: 100%;
+  /*position: fixed;*/
+  top: 0;
+  z-index: 100;
+  background-color: #282938;
+  height: 84px;
+
+  font-family: 'Josefin Sans', Futura, sans-serif;
+  font-size: 20px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+#top-bar h1{
+  height: 64px;
+  width: auto;
+  display: inline-block;
+  padding-left: 20px;
+}
+
+.nav, .nav a, .nav a:visited {
+  display: inline-block;
+  float: right;
+  padding: 20px;
+  margin: 0px 4px;
+  color: #ec4e4e;
+  text-decoration: none;
+  text-align: center;
+}
+
+.nav:hover {
+  border-bottom: 4px solid #f58548;
+}
+
+
+
+/* BODY CONTENT STYLING */
+#content {
+  margin-top: 25px;
+}
+
+#main-content {
+  text-align: center;
+}
+
+#main-content h1 {
+  padding: 10px 0;
+  font-size: 36px;
+}
+
+
+
+/* STEP CAROUSEL STYLING */
+.stepcarousel {
+  position: relative; /*leave this value alone*/
+  overflow: hidden; /*leave this value alone*/
+  margin:auto;
+  width: 100%; /*Width of Carousel Viewer itself*/
+  height: 480px; /*Height should enough to fit largest content's height*/
+  background-color: #000;
+  -webkit-box-sizing: border-box; /* set box model so container width and height value includes any padding/border defined */
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+}
+
+.stepcarousel ul {
+  margin:auto;
+  width: 70%; /*Width of Carousel Viewer itself*/
+}
+
+.stepcarousel .belt {
+  position: absolute; /*leave this value alone*/
+  width: 100%;
+  left: 0;
+  top: 0;
+}
+
+.stepcarousel .panel {
+  float: left; /*leave this value alone*/
+  /*overflow: hidden; clip content that go outside dimensions of holding panel DIV*/
+  width: 100%; /*Width of each panel holding each content. If removed, widths should be individually defined on each content DIV then. */
+  height: 480px;
+  z-index: 1;
+}
+
+.stepcarousel .panel img {
+  width: 20%;
+  height: auto;
+  opacity: 0.6;
+  position: absolute;
+  z-index: 3;
+}
+
+.panel-content {
+  padding: 40px 100px;
+  width: 700px;
+  z-index: 5;
+  position: absolute;
+}
+
+#mygallery-paginate {
+  position: absolute;
+  margin-top: 410px;
+  margin-left: 560px;
+  z-index: 50;
+}
+
+span.paginatecircle { /* CSS for paginate circle spans. Required */
+  background: #f58548;
+  border: 2px solid #ec4e4e;
+  border-radius: 10px;
+  width: 10px;
+  height: 10px;
+  cursor: pointer;
+  display: inline-block;
+  margin-right: 4px;
+}
+
+span.paginatecircle:hover {background: gray;}
+span.paginatecircle.selected {background: #ec4e4e;}
+
+
+
+
+
+
+
+
+/* SEARCH BAR STYLING */
+.box {
+  margin: 20px auto;
+  width: 300px;
+  height: 50px;
+}
+
+.container-1 {
+  width: 300px;
+  vertical-align: middle;
+  white-space: nowrap;
+  position: relative;
+}
+
+.container-1 input#search {
+  width: 300px;
+  height: 50px;
+  background: #282938;
+  border: none;
+  font-size: 10pt;
+  float: left;
+  color: #63717f;
+  padding-left: 45px;
+  -webkit-border-radius: 8px;
+  -moz-border-radius: 8px;
+  border-radius: 8px;
+}
+
+.container-1 .icon {
+  position: absolute;
+  top: 50%;
+  margin-left: 17px;
+  margin-top: 17px;
+  z-index: 1;
+  color: #4f5b66;
+}
+
+#advanced-search {
+  text-align: center;
+}
+
+
+#slides_control > div{
+  height: 200px;
+}
+
+#carousel-img{
+  margin: auto;
+  width: 100%;
+}
+
+#slides_control {
+  position:absolute;
+  width: 400px;
+  left:50%;
+  top:20px;
+  margin-left:-200px;
+}
+
+
+#indicators {
+  margin-left: auto;
+  margin-right: auto;
+  table-layout: fixed;
+  border-collapse: collapse;
+  z-index: -1; position:relative
+}
+
+.autocompletedemoCustomTemplate .autocomplete-custom-template li {
+  border-bottom: 1px solid #ccc;
+  height: auto;
+  padding-top: 8px;
+  padding-bottom: 8px;
+white-space: normal; }
+.autocompletedemoCustomTemplate .autocomplete-custom-template li:last-child {
+border-bottom-width: 0; }
+.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title,
+.autocompletedemoCustomTemplate .autocomplete-custom-template .item-metadata {
+  display: block;
+line-height: 2; }
+.autocompletedemoCustomTemplate .autocomplete-custom-template .item-title md-icon {
+  height: 18px;
+width: 18px; }

@@ -1,0 +1,12 @@
+<section data-ng-controller="TriplesController" data-ng-init="find()">
+  <h1>Songs</h1>
+  <ul>
+    <li data-ng-repeat="triple in triples">
+      <small data-ng-bind="triple.username"></small>
+      <small> / </small>
+      <small data-ng-bind="triple.title"></small>
+      <small> / </small>
+      <small data-ng-bind="triple.count"></small>
+    </l1>
+  </ul>
+</section>

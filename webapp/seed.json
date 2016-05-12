@@ -1,0 +1,5 @@
+{
+	"undefined": "mongodb://localhost/songgest",
+	"dev": "mongodb://localhost/songgest",
+	"prod": "mongodb://localhost/songgest"
+}

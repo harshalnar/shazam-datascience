@@ -1,0 +1,15 @@
+{
+  "name": "pessoa",
+  "version": "0.0.0",
+  "dependencies": {
+    "angular": "^1.5.3",
+    "angular-route": "^1.5.3",
+    "angular-resource": "^1.5.3",
+    "angular-carousel": "^1.0.1",
+    "angular-touch": "^1.5.3",
+    "angular-material": "^1.0.7"
+  },
+  "resolutions": {
+    "angular": "^1.5.3"
+  }
+}

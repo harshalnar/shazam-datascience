@@ -1,0 +1,12 @@
+<section data-ng-controller="SongsController" data-ng-init="findOne()">
+  <h1 data-ng-bind="song.title"></h1>
+  <h2 data-ng-bind="song.author"></h2>
+  <h2 data-ng-bind="song.index"></h2>
+
+  <!-- Probably need to add confirmation on deletion  -->
+  <div data-ng-show="authentication.user">
+    <a href="/#!/songs/{{song._id}}/edit">edit</a>
+    <a href="#" data-ng-click="delete();">delete</a>
+  </div>
+  
+</section>
